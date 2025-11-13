@@ -1,0 +1,98 @@
+<section class="page">
+  <h2>Voli per aeroporto</h2>
+
+  <form class="search-form" (ngSubmit)="onSearch()">
+    <label>
+      Codice aeroporto (IATA, es. FCO, MXP)
+      <input
+        [(ngModel)]="airportCode"
+        name="airportCode"
+        placeholder="Inserisci codice aeroporto"
+      />
+    </label>
+
+    <div class="radio-group">
+      <label>
+        <input
+          type="radio"
+          name="type"
+          value="departures"
+          [(ngModel)]="type"
+        />
+        Partenze
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="type"
+          value="arrivals"
+          [(ngModel)]="type"
+        />
+        Arrivi
+      </label>
+    </div>
+
+    <button type="submit">Mostra voli</button>
+  </form>
+
+  <div *ngIf="!searched" class="hint">
+    Inserisci un codice aeroporto e scegli se visualizzare
+    <strong>Partenze</strong> o <strong>Arrivi</strong>.
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Caricamento voli...
+  </div>
+
+  <div *ngIf="error && !loading" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && results.length" class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Ora sched.</th>
+          <th>Volo</th>
+          <th>Compagnia</th>
+          <th>Da / A</th>
+          <th>Stato</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of results">
+          <td>
+            {{
+              type === 'departures'
+                ? f.departure?.scheduled
+                : f.arrival?.scheduled
+            }}
+          </td>
+          <td>{{ f.flight?.iata }}</td>
+          <td>{{ f.airline?.name || f.airline?.iata }}</td>
+          <td>
+            <ng-container *ngIf="type === 'departures'; else arrivalsTpl">
+              {{ f.arrival?.airport || 'Sconosciuto' }}
+              ({{ f.arrival?.iata || '?' }})
+            </ng-container>
+            <ng-template #arrivalsTpl>
+              {{ f.departure?.airport || 'Sconosciuto' }}
+              ({{ f.departure?.iata || '?' }})
+            </ng-template>
+          </td>
+          <td>
+            <span [class]="getStatusClass(f.flight_status)">
+              {{ f.flight_status || 'n.d.' }}
+            </span>
+          </td>
+          <td>
+            <button type="button" (click)="goToDetail(f)">
+              Dettagli
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

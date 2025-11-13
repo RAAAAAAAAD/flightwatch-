@@ -1,0 +1,22 @@
+<header class="app-header">
+  <div class="logo">
+    <h1>FlightWatch</h1>
+    <p>Real-time flight status</p>
+  </div>
+  <nav class="nav-links">
+    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Cerca volo
+    </a>
+    <a routerLink="/airport" routerLinkActive="active">
+      Voli per aeroporto
+    </a>
+  </nav>
+</header>
+
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="app-footer">
+  Dati forniti da aviationstack API
+</footer>

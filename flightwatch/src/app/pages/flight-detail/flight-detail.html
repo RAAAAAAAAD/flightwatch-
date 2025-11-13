@@ -1,0 +1,57 @@
+<section class="page">
+  <button class="back" (click)="goBack()">
+    ← Torna ai risultati
+  </button>
+
+  <h2>Dettaglio volo</h2>
+
+  <div *ngIf="loading">Caricamento dettagli...</div>
+  <div *ngIf="error && !loading" class="error">{{ error }}</div>
+
+  <div *ngIf="flight && !loading" class="detail-card">
+    <header>
+      <div>
+        <h3>{{ flight.flight?.iata }}</h3>
+        <p class="airline">
+          {{ flight.airline?.name || flight.airline?.iata }}
+        </p>
+      </div>
+      <div>
+        <span [class]="getStatusClass(flight.flight_status)">
+          {{ flight.flight_status || 'n.d.' }}
+        </span>
+      </div>
+    </header>
+
+    <section class="block">
+      <h4>Partenza</h4>
+      <p>
+        Aeroporto:
+        <strong>
+          {{ flight.departure?.airport || 'Sconosciuto' }}
+          ({{ flight.departure?.iata || '?' }})
+        </strong>
+      </p>
+      <p>Terminal: {{ flight.departure?.terminal || '-' }}</p>
+      <p>Gate: {{ flight.departure?.gate || '-' }}</p>
+      <p>Schedulato: {{ flight.departure?.scheduled || '-' }}</p>
+      <p>Effettivo: {{ flight.departure?.actual || '-' }}</p>
+      <p>Ritardo: {{ flight.departure?.delay || 0 }} minuti</p>
+    </section>
+
+    <section class="block">
+      <h4>Arrivo</h4>
+      <p>
+        Aeroporto:
+        <strong>
+          {{ flight.arrival?.airport || 'Sconosciuto' }}
+          ({{ flight.arrival?.iata || '?' }})
+        </strong>
+      </p>
+      <p>Terminal: {{ flight.arrival?.terminal || '-' }}</p>
+      <p>Gate: {{ flight.arrival?.gate || '-' }}</p>
+      <p>Schedulato: {{ flight.arrival?.scheduled || '-' }}</p>
+      <p>Effettivo: {{ flight.arrival?.actual || '-' }}</p>
+    </section>
+  </div>
+</section>
