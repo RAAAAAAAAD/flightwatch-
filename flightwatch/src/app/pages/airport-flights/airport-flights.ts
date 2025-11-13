@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FlightApiService } from '../../services/flight-api';
 import { Flight } from '../../models/flight';
@@ -8,7 +8,7 @@ import { Flight } from '../../models/flight';
 @Component({
   selector: 'app-airport-flights',
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor],
+  imports: [FormsModule, NgIf, NgFor, CommonModule],
   templateUrl: './airport-flights.html',
   styleUrl: './airport-flights.css'
 })

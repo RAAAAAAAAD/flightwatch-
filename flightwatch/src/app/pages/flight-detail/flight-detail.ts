@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FlightApiService } from '../../services/flight-api';
 import { Flight } from '../../models/flight';
 
 @Component({
   selector: 'app-flight-detail',
   standalone: true,
-  imports: [NgIf],
-  templateUrl: './flight-detail.component.html',
-  styleUrl: './flight-detail.component.css'
+  imports: [NgIf, CommonModule],
+  templateUrl: './flight-detail.html',
+  styleUrl: './flight-detail.css'
 })
 export class FlightDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
