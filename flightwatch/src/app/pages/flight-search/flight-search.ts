@@ -21,6 +21,7 @@ export class FlightSearchComponent {
   error: string | null = null;
   results: Flight[] = [];
   searched = false;
+  isSearchSubmitted = false;
 
   onSearch() {
     const trimmed = this.flightNumber.trim();
@@ -28,6 +29,7 @@ export class FlightSearchComponent {
       this.error = 'Inserisci un numero di volo.';
       this.results = [];
       this.searched = true;
+      this.isSearchSubmitted = true;
       return;
     }
 
@@ -35,6 +37,7 @@ export class FlightSearchComponent {
     this.error = null;
     this.results = [];
     this.searched = true;
+    this.isSearchSubmitted = true;
 
     this.api.getFlightByNumber(trimmed).subscribe({
       next: res => {

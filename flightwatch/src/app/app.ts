@@ -8,4 +8,6 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl:'./app.html',
   styleUrl: './app.css'
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'FlightWatch';
+}

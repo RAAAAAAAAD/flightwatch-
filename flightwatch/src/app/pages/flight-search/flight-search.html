@@ -1,63 +1,66 @@
-<section class="page">
-  <h2>Cerca un volo</h2>
+<div class="page" [class.search-submitted]="isSearchSubmitted">
+  <div class="background-image"></div>
 
-  <form class="search-form" (ngSubmit)="onSearch()">
-    <label>
-      Numero volo (es. AZ203)
-      <input
-        [(ngModel)]="flightNumber"
-        name="flightNumber"
-        placeholder="Inserisci numero volo"
-      />
-    </label>
-
-    <button type="submit">Cerca</button>
-  </form>
-
-  <div *ngIf="!searched" class="hint">
-    Inserisci un numero di volo e premi <strong>Cerca</strong>.
-  </div>
-
-  <div *ngIf="loading" class="loading">
-    Ricerca in corso...
-  </div>
-
-  <div *ngIf="error && !loading" class="error">
-    {{ error }}
-  </div>
-
-  <div *ngIf="!loading && results.length" class="results">
-    <div *ngFor="let f of results" class="flight-card">
-      <header>
-        <h3>{{ f.flight?.iata || 'N/A' }}</h3>
-        <span class="airline">{{ f.airline?.name || f.airline?.iata }}</span>
-      </header>
-
-      <p class="route">
-        {{ f.departure?.airport || 'Sconosciuto' }}
-        ({{ f.departure?.iata || '?' }})
-        →
-        {{ f.arrival?.airport || 'Sconosciuto' }}
-        ({{ f.arrival?.iata || '?' }})
-      </p>
-
-      <p>
-        Partenza schedulata:
-        <strong>{{ f.departure?.scheduled || '-' }}</strong>
-      </p>
-      <p>
-        Arrivo schedulato:
-        <strong>{{ f.arrival?.scheduled || '-' }}</strong>
-      </p>
-
-      <p>
-        Stato:
-        <span [class]="getStatusClass(f.flight_status)">
-          {{ f.flight_status || 'n.d.' }}
-        </span>
-      </p>
-
-      <button (click)="goToDetail(f)">Dettagli volo</button>
+  <div class="search-container" [class.moved-up]="isSearchSubmitted">
+    <div class="search-box">
+      <h2 *ngIf="!isSearchSubmitted">Cerca un volo</h2>
+      
+      <form class="search-form" (ngSubmit)="onSearch()">
+        <div class="input-group-custom">
+          <input 
+            type="text" 
+            class="form-control-custom" 
+            [(ngModel)]="flightNumber"
+            name="flightNumber"
+            placeholder="Inserire numero volo"
+            required>
+          
+          <button type="submit" class="btn-search">
+            Cerca
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-</section>
+
+  <div class="results-container" *ngIf="isSearchSubmitted">
+    <p class="loading" *ngIf="loading">Ricerca in corso...</p>
+    
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+    
+    <div class="results" *ngIf="results.length > 0">
+      <div class="flight-card" *ngFor="let f of results">
+        <div class="flight-header">
+          <h3>{{ f.flight?.iata || 'N/A' }}</h3>
+        </div>
+        
+        <div class="flight-route">
+          <strong>{{ f.departure?.airport || 'Sconosciuto' }} ({{ f.departure?.iata || '?' }})</strong>
+          →
+          <strong>{{ f.arrival?.airport || 'Sconosciuto' }} ({{ f.arrival?.iata || '?' }})</strong>
+        </div>
+        
+        <div class="flight-details">
+          <div class="detail-row">
+            <strong>Partenza schedulata:</strong> {{ f.departure?.scheduled || '-' }}
+          </div>
+          <div class="detail-row">
+            <strong>Arrivo schedulato:</strong> {{ f.arrival?.scheduled || '-' }}
+          </div>
+          <div class="detail-row status-row">
+            <strong>Stato:</strong>
+            <span [ngClass]="getStatusClass(f.flight_status)">
+              {{ f.flight_status || 'n.d.' }}
+            </span>
+          </div>
+        </div>
+        
+        <button class="btn-detail" (click)="goToDetail(f)">
+          Dettaglio
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

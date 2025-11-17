@@ -4,19 +4,11 @@
     <p>Real-time flight status</p>
   </div>
   <nav class="nav-links">
-    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      Cerca volo
-    </a>
-    <a routerLink="/airport" routerLinkActive="active">
-      Voli per aeroporto
-    </a>
+    <a routerLink="/flights" routerLinkActive="active" class="nav-btn">Voli</a>
+    <a routerLink="/airports" routerLinkActive="active" class="nav-btn">Aeroporti</a>
   </nav>
 </header>
 
 <main class="app-main">
   <router-outlet></router-outlet>
 </main>
-
-<footer class="app-footer">
-  Dati forniti da aviationstack API
-</footer>
