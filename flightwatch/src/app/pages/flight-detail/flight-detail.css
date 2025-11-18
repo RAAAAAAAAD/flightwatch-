@@ -1,77 +1,26 @@
-.page {
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
-.back {
-  border: none;
-  background: transparent;
-  color: #0b3d91;
-  cursor: pointer;
-  margin-bottom: 0.5rem;
-}
-
-.error {
-  color: #b91c1c;
-  background: #fee2e2;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-}
-
-.detail-card header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.detail-card h3 {
-  margin: 0;
-}
-
-.airline {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #4b5563;
-}
-
-.block {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.block h4 {
-  margin: 0 0 0.5rem;
-}
-
-.status {
-  display: inline-block;
-  padding: 0.1rem 0.4rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}
-
+/* Custom status badges matching FlightWatch style */
 .status-ok {
-  background: #dcfce7;
-  color: #15803d;
+  background: #90ee90 !important;
+  color: #15803d !important;
 }
 
 .status-landed {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #add8e6 !important;
+  color: #0369a1 !important;
 }
 
 .status-delayed {
-  background: #fef3c7;
-  color: #b45309;
+  background: #fef3c7 !important;
+  color: #b45309 !important;
 }
 
 .status-cancelled {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+}
+
+/* Hover effects for back button */
+.btn:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
 }

@@ -48,15 +48,15 @@ export class FlightDetailComponent implements OnInit {
     switch ((status || '').toLowerCase()) {
       case 'active':
       case 'scheduled':
-        return 'status status-ok';
+        return 'status-ok';
       case 'landed':
-        return 'status status-landed';
+        return 'status-landed';
       case 'cancelled':
-        return 'status status-cancelled';
+        return 'status-cancelled';
       case 'delayed':
-        return 'status status-delayed';
+        return 'status-delayed';
       default:
-        return 'status';
+        return '';
     }
   }
 

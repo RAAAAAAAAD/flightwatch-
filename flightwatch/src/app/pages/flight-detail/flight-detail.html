@@ -1,57 +1,141 @@
-<section class="page">
-  <button class="back" (click)="goBack()">
-    ← Torna ai risultati
-  </button>
+<div class="container-fluid" style="background: #e8e9ec; min-height: 100vh; padding: 2rem 0;">
+  <div class="container" style="max-width: 900px;">
+    
+    <!-- Back Button -->
+    <button 
+      class="btn mb-3" 
+      (click)="goBack()"
+      style="background: transparent; border: none; color: #6c757d; font-size: 1.1rem;">
+      ← Indietro
+    </button>
 
-  <h2>Dettaglio volo</h2>
-
-  <div *ngIf="loading">Caricamento dettagli...</div>
-  <div *ngIf="error && !loading" class="error">{{ error }}</div>
-
-  <div *ngIf="flight && !loading" class="detail-card">
-    <header>
-      <div>
-        <h3>{{ flight.flight?.iata }}</h3>
-        <p class="airline">
-          {{ flight.airline?.name || flight.airline?.iata }}
-        </p>
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border" style="color: #a2b9c8;" role="status">
+        <span class="visually-hidden">Caricamento...</span>
       </div>
-      <div>
-        <span [class]="getStatusClass(flight.flight_status)">
-          {{ flight.flight_status || 'n.d.' }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="alert" style="background: #fee2e2; color: #b91c1c; border-radius: 1rem; border: none;">
+      {{ error }}
+    </div>
+
+    <!-- Flight Detail Card -->
+    <div *ngIf="flight && !loading && !error" 
+         class="card shadow-sm" 
+         style="background: #d4dfe6; border: none; border-radius: 1.5rem; overflow: hidden;">
+      
+      <!-- Header -->
+      <div class="card-header d-flex justify-content-between align-items-center" 
+           style="background: #d4dfe6; border: none; padding: 1.5rem;">
+        <div>
+          <h2 class="mb-1" style="font-weight: bold; font-size: 2rem;">{{ flight.flight?.iata || flightNumber }}</h2>
+          <p class="mb-0" style="color: #6c757d; font-size: 1rem;">{{ flight.airline?.name || 'Compagnia aerea' }}</p>
+        </div>
+        <span [class]="'badge rounded-pill px-3 py-2 ' + getStatusClass(flight.flight_status)">
+          {{ flight.flight_status || 'N/A' }}
         </span>
       </div>
-    </header>
 
-    <section class="block">
-      <h4>Partenza</h4>
-      <p>
-        Aeroporto:
-        <strong>
-          {{ flight.departure?.airport || 'Sconosciuto' }}
-          ({{ flight.departure?.iata || '?' }})
-        </strong>
-      </p>
-      <p>Terminal: {{ flight.departure?.terminal || '-' }}</p>
-      <p>Gate: {{ flight.departure?.gate || '-' }}</p>
-      <p>Schedulato: {{ flight.departure?.scheduled || '-' }}</p>
-      <p>Effettivo: {{ flight.departure?.actual || '-' }}</p>
-      <p>Ritardo: {{ flight.departure?.delay || 0 }} minuti</p>
-    </section>
+      <!-- Route -->
+      <div class="card-body" style="background: #d4dfe6; padding: 1.5rem;">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">
+              {{ flight.departure?.airport || 'Sconosciuto' }}
+            </h4>
+            <p class="text-muted mb-0">({{ flight.departure?.iata || '?' }})</p>
+          </div>
+          <div class="col-auto d-flex align-items-center">
+            <span style="font-size: 1.5rem;">→</span>
+          </div>
+          <div class="col">
+            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">
+              {{ flight.arrival?.airport || 'Sconosciuto' }}
+            </h4>
+            <p class="text-muted mb-0">({{ flight.arrival?.iata || '?' }})</p>
+          </div>
+        </div>
 
-    <section class="block">
-      <h4>Arrivo</h4>
-      <p>
-        Aeroporto:
-        <strong>
-          {{ flight.arrival?.airport || 'Sconosciuto' }}
-          ({{ flight.arrival?.iata || '?' }})
-        </strong>
-      </p>
-      <p>Terminal: {{ flight.arrival?.terminal || '-' }}</p>
-      <p>Gate: {{ flight.arrival?.gate || '-' }}</p>
-      <p>Schedulato: {{ flight.arrival?.scheduled || '-' }}</p>
-      <p>Effettivo: {{ flight.arrival?.actual || '-' }}</p>
-    </section>
+        <!-- Departure Details -->
+        <div class="card mb-3" style="background: white; border: none; border-radius: 1rem;">
+          <div class="card-body">
+            <h5 class="card-title mb-3" style="font-weight: bold;">
+              ✈️ Partenza: {{ flight.departure?.airport || 'Sconosciuto' }}
+            </h5>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Terminal</small>
+                  <strong>{{ flight.departure?.terminal || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Gate</small>
+                  <strong>{{ flight.departure?.gate || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Schedulato</small>
+                  <strong>{{ flight.departure?.scheduled || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Effettivo</small>
+                  <strong>{{ flight.departure?.actual || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="flight.departure?.delay">
+                <div class="p-2 rounded" style="background: #fef3c7;">
+                  <small class="text-muted d-block">Ritardo</small>
+                  <strong style="color: #b45309;">{{ flight.departure?.delay }} minuti</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arrival Details -->
+        <div class="card" style="background: white; border: none; border-radius: 1rem;">
+          <div class="card-body">
+            <h5 class="card-title mb-3" style="font-weight: bold;">
+              🛬 Arrivo: {{ flight.arrival?.airport || 'Sconosciuto' }}
+            </h5>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Terminal</small>
+                  <strong>{{ flight.arrival?.terminal || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Gate</small>
+                  <strong>{{ flight.arrival?.gate || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Schedulato</small>
+                  <strong>{{ flight.arrival?.scheduled || '-' }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-2 rounded" style="background: #f8f9fa;">
+                  <small class="text-muted d-block">Effettivo</small>
+                  <strong>{{ flight.arrival?.actual || '-' }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
-</section>
+</div>

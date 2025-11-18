@@ -1,10 +1,11 @@
-
-
 :host {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  width: 100%; /* AGGIUNTO */
+  max-width: 100vw; /* AGGIUNTO */
+  overflow-x: hidden; /* AGGIUNTO */
 }
 
 .app-header {
@@ -19,14 +20,17 @@
   right: 0;
   z-index: 1000;
   transition: background 0.3s ease;
+  width: 100%; /* AGGIUNTO */
+  box-sizing: border-box; /* AGGIUNTO */
+  max-width: 100vw; /* AGGIUNTO */
 }
 
 .logo {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  flex-shrink: 0; /* AGGIUNTO - previene che il logo si comprima troppo */
 }
-
 
 .logo h1 {
   font-family: 'More Sugar', sans-serif;
@@ -35,9 +39,11 @@
   font-weight: 700;
   color: #000;
   letter-spacing: -0.5px;
+  transition: all 0.3s ease; /* AGGIUNTO per transizione smooth */
+  white-space: nowrap; /* AGGIUNTO - previene word wrap */
 }
 
-.logo h1:hover{
+.logo h1:hover {
   font-family: 'More Sugar', sans-serif;
   margin: 0;
   font-size: 2rem;
@@ -52,11 +58,14 @@
   color: #000;
   opacity: 0.8;
   font-weight: 400;
+  white-space: nowrap; /* AGGIUNTO */
 }
 
 .nav-links {
   display: flex;
   gap: 1rem;
+  flex-shrink: 0; /* AGGIUNTO */
+  flex-wrap: wrap; /* AGGIUNTO per schermi piccoli */
 }
 
 .nav-btn {
@@ -69,6 +78,8 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; /* AGGIUNTO */
+  box-sizing: border-box; /* AGGIUNTO */
 }
 
 .nav-btn:hover {
@@ -86,6 +97,9 @@
   flex: 1;
   padding-top: 80px;
   background: #e8e9ec;
+  width: 100%; /* AGGIUNTO */
+  box-sizing: border-box; /* AGGIUNTO */
+  overflow-x: hidden; /* AGGIUNTO */
 }
 
 @media (max-width: 768px) {
@@ -98,6 +112,10 @@
   
   .logo h1 {
     font-size: 1.4rem;
+  }
+  
+  .logo h1:hover {
+    font-size: 1.6rem; /* AGGIUNTO - proporzionato alla dimensione mobile */
   }
   
   .logo p {
@@ -116,5 +134,37 @@
   
   .app-main {
     padding-top: 120px;
+  }
+}
+
+/* AGGIUNTO - Media query per schermi molto piccoli */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .logo h1 {
+    font-size: 1.2rem;
+  }
+  
+  .logo h1:hover {
+    font-size: 1.4rem;
+  }
+  
+  .logo p {
+    font-size: 0.7rem;
+  }
+  
+  .nav-links {
+    gap: 0.5rem;
+  }
+  
+  .nav-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .app-main {
+    padding-top: 140px;
   }
 }
