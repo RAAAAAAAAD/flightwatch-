@@ -22,6 +22,7 @@ export class AirportFlightsComponent {
   error: string | null = null;
   results: Flight[] = [];
   searched = false;
+  isSearchSubmitted = false;
 
   onSearch() {
     const trimmed = this.airportCode.trim().toUpperCase();
@@ -29,6 +30,7 @@ export class AirportFlightsComponent {
       this.error = 'Inserisci un codice IATA di aeroporto (es. FCO).';
       this.results = [];
       this.searched = true;
+      this.isSearchSubmitted = true;
       return;
     }
 
@@ -36,6 +38,7 @@ export class AirportFlightsComponent {
     this.error = null;
     this.results = [];
     this.searched = true;
+    this.isSearchSubmitted = true;
 
     this.api.getFlightsByAirport(trimmed, this.type).subscribe({
       next: res => {

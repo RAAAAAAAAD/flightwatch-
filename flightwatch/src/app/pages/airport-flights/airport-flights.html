@@ -1,98 +1,90 @@
-<section class="page">
-  <h2>Voli per aeroporto</h2>
-
-  <form class="search-form" (ngSubmit)="onSearch()">
-    <label>
-      Codice aeroporto (IATA, es. FCO, MXP)
-      <input
-        [(ngModel)]="airportCode"
-        name="airportCode"
-        placeholder="Inserisci codice aeroporto"
-      />
-    </label>
-
-    <div class="radio-group">
-      <label>
-        <input
-          type="radio"
-          name="type"
-          value="departures"
-          [(ngModel)]="type"
-        />
-        Partenze
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="type"
-          value="arrivals"
-          [(ngModel)]="type"
-        />
-        Arrivi
-      </label>
+<div class="page" [class.search-submitted]="isSearchSubmitted">
+  <div class="search-container" [class.moved-up]="isSearchSubmitted">
+    <div class="search-box">
+      <h2 *ngIf="!isSearchSubmitted">Cerca voli per aeroporto</h2>
+      
+      <form class="search-form" (ngSubmit)="onSearch()">
+        <div class="input-group-custom">
+          <input 
+            type="text" 
+            class="form-control-custom" 
+            [(ngModel)]="airportCode"
+            name="airportCode"
+            placeholder="Inserire codice aeroporto (es. FCO)"
+            required>
+          
+          <div class="radio-group">
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                [(ngModel)]="type" 
+                name="type" 
+                value="departures">
+              Partenze
+            </label>
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                [(ngModel)]="type" 
+                name="type" 
+                value="arrivals">
+              Arrivi
+            </label>
+          </div>
+          
+          <button type="submit" class="btn-search">
+            Cerca
+          </button>
+        </div>
+      </form>
     </div>
-
-    <button type="submit">Mostra voli</button>
-  </form>
-
-  <div *ngIf="!searched" class="hint">
-    Inserisci un codice aeroporto e scegli se visualizzare
-    <strong>Partenze</strong> o <strong>Arrivi</strong>.
   </div>
 
-  <div *ngIf="loading" class="loading">
-    Caricamento voli...
+  <div class="results-container" *ngIf="isSearchSubmitted">
+    <p class="loading" *ngIf="loading">Ricerca in corso...</p>
+    
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+    
+    <div class="results" *ngIf="results.length > 0">
+      <div class="flight-card" *ngFor="let f of results">
+        <div class="flight-header">
+          <h3>{{ f.flight?.iata || 'N/A' }}</h3>
+          <span [ngClass]="getStatusClass(f.flight_status)">
+            {{ f.flight_status || 'n.d.' }}
+          </span>
+        </div>
+        
+        <div class="flight-airline">
+          {{ f.airline?.name || 'Compagnia sconosciuta' }}
+        </div>
+        
+        <div class="flight-route">
+          <div class="route-item">
+            <span class="route-label">Da:</span>
+            <strong>{{ f.departure?.airport || 'Sconosciuto' }}</strong> ({{ f.departure?.iata || '?' }})
+          </div>
+          <div class="route-arrow">→</div>
+          <div class="route-item">
+            <span class="route-label">A:</span>
+            <strong>{{ f.arrival?.airport || 'Sconosciuto' }}</strong> ({{ f.arrival?.iata || '?' }})
+          </div>
+        </div>
+        
+        <div class="flight-details">
+          <div class="detail-row">
+            <strong>Partenza:</strong> {{ f.departure?.scheduled || '-' }}
+          </div>
+          <div class="detail-row">
+            <strong>Arrivo:</strong> {{ f.arrival?.scheduled || '-' }}
+          </div>
+        </div>
+        
+        <button class="btn-detail" (click)="goToDetail(f)">
+          Dettaglio
+        </button>
+      </div>
+    </div>
   </div>
-
-  <div *ngIf="error && !loading" class="error">
-    {{ error }}
-  </div>
-
-  <div *ngIf="!loading && results.length" class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Ora sched.</th>
-          <th>Volo</th>
-          <th>Compagnia</th>
-          <th>Da / A</th>
-          <th>Stato</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let f of results">
-          <td>
-            {{
-              type === 'departures'
-                ? f.departure?.scheduled
-                : f.arrival?.scheduled
-            }}
-          </td>
-          <td>{{ f.flight?.iata }}</td>
-          <td>{{ f.airline?.name || f.airline?.iata }}</td>
-          <td>
-            <ng-container *ngIf="type === 'departures'; else arrivalsTpl">
-              {{ f.arrival?.airport || 'Sconosciuto' }}
-              ({{ f.arrival?.iata || '?' }})
-            </ng-container>
-            <ng-template #arrivalsTpl>
-              {{ f.departure?.airport || 'Sconosciuto' }}
-              ({{ f.departure?.iata || '?' }})
-            </ng-template>
-          </td>
-          <td>
-            <span [class]="getStatusClass(f.flight_status)">
-              {{ f.flight_status || 'n.d.' }}
-            </span>
-          </td>
-          <td>
-            <button type="button" (click)="goToDetail(f)">
-              Dettagli
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+</div>

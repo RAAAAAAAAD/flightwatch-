@@ -1,3 +1,5 @@
+
+
 :host {
   display: flex;
   flex-direction: column;
@@ -22,12 +24,24 @@
 .logo {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
+
 .logo h1 {
+  font-family: 'More Sugar', sans-serif;
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
+  color: #000;
+  letter-spacing: -0.5px;
+}
+
+.logo h1:hover{
+  font-family: 'More Sugar', sans-serif;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
   color: #000;
   letter-spacing: -0.5px;
 }
